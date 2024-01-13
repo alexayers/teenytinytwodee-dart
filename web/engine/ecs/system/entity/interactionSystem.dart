@@ -4,19 +4,16 @@ import '../../components/cameraComponent.dart';
 import '../../gameEntity.dart';
 import '../../gameSystem.dart';
 
-class InteractionSystem extends GameSystem {
+class InteractionSystem implements GameSystem {
   final WorldMap _worldMap = WorldMap.instance;
 
   @override
   void processEntity(GameEntity gameEntity) {
-    if (gameEntity.hasComponent("camera") &&
-        gameEntity.hasComponent("interaction")) {
-      CameraComponent camera =
-          gameEntity.getComponent("camera") as CameraComponent;
+    CameraComponent camera =
+        gameEntity.getComponent("camera") as CameraComponent;
 
-      interact(camera.camera);
-      gameEntity.removeComponent("interaction");
-    }
+    interact(camera.camera);
+    gameEntity.removeComponent("interaction");
   }
 
   void interact(Camera camera) {
@@ -73,5 +70,16 @@ class InteractionSystem extends GameSystem {
       _worldMap.setDoorState(
           camera.xPos.floor(), camera.yPos.floor(), DoorState.opening);
     }
+  }
+
+  @override
+  void removeIfPresent(GameEntity gameEntity) {
+    // TODO: implement removeIfPresent
+  }
+
+  @override
+  bool shouldRun(GameEntity gameEntity) {
+    return gameEntity.hasComponent("camera") &&
+        gameEntity.hasComponent("interaction");
   }
 }

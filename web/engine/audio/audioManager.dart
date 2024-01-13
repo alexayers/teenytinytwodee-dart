@@ -1,13 +1,7 @@
-
-
-import 'dart:html';
-
 import '../gameEvent/gameEvent.dart';
-import '../logger/logger.dart';
 import 'audioFile.dart';
 
 class AudioManager {
-
   static AudioManager? _instance;
   bool _audioEnabled = true;
   Map<String, AudioFile> _soundMap = {};
@@ -16,7 +10,7 @@ class AudioManager {
 
   static AudioManager get instance {
     _instance ??= AudioManager._privateConstructor();
-    
+
     return _instance!;
   }
 
@@ -29,15 +23,14 @@ class AudioManager {
       _soundMap[name]?.play();
     }
   }
-  
+
   void stop(String name) {
     if (_audioEnabled) {
       _soundMap[name]?.stop();
     }
   }
-  
+
   void handleEvent(GameEvent gameEvent) {
     play(gameEvent.payload);
   }
-  
 }

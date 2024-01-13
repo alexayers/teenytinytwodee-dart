@@ -1,10 +1,6 @@
 import '../gameComponent.dart';
 
-class WallComponent extends GameComponent {
-
-
-
+class WallComponent implements GameComponent {
   @override
   String get name => "wall";
-
 }

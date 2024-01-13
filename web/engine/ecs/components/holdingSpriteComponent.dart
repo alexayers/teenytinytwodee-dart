@@ -1,10 +1,11 @@
+import '../../rendering/sprite.dart';
+import '../gameComponent.dart';
 
+class HoldingSpriteComponent implements GameComponent {
+  Sprite sprite;
 
-import '../../gameComponent.dart';
+  HoldingSpriteComponent(this.sprite);
 
-class BuildActionComponent extends GameComponent {
   @override
-  // TODO: implement name
-  String get name => throw UnimplementedError();
-
+  String get name => "holdingSprite";
 }

@@ -1,9 +1,10 @@
-
 import '../../engine/ecs/gameComponent.dart';
 
-class BuildingComponent extends GameComponent {
-  @override
-  // TODO: implement name
-  String get name => throw UnimplementedError();
+class DrillComponent implements GameComponent {
+  int speed;
 
+  DrillComponent(this.speed);
+
+  @override
+  String get name => "drill";
 }

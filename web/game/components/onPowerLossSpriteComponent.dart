@@ -1,9 +1,11 @@
-
 import '../../engine/ecs/gameComponent.dart';
+import '../../engine/rendering/sprite.dart';
 
-class BuildingComponent extends GameComponent {
+class OnPowerLossSpriteComponent implements GameComponent {
+  Sprite sprite;
+
+  OnPowerLossSpriteComponent(this.sprite);
 
   @override
-  // TODO: implement name
-  String get name => throw UnimplementedError();
+  String get name => "onPowerLossSprite";
 }

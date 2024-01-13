@@ -1,7 +1,11 @@
 import '../../engine/ecs/gameComponent.dart';
 
-class BuildingComponent extends GameComponent {
+class SuitComponent implements GameComponent {
+  int max;
+  int current;
+
+  SuitComponent(this.current, this.max);
+
   @override
-  // TODO: implement name
-  String get name => throw UnimplementedError();
+  String get name => "suit";
 }

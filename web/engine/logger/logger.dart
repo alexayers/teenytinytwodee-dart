@@ -1,11 +1,4 @@
-
-
-
-enum LogType {
-  info,
-  debug,
-  error
-}
+enum LogType { info, debug, error }
 
 void logger(LogType logType, String msg) {
   var date = DateTime.now();

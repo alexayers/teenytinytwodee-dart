@@ -1,9 +1,6 @@
-
-
 import '../gameComponent.dart';
 
-class PushWallComponent extends GameComponent {
-
+class PushWallComponent implements GameComponent {
   bool _openWall = false;
 
   void openWall() {
@@ -16,5 +13,4 @@ class PushWallComponent extends GameComponent {
 
   @override
   String get name => "pushWall";
-
 }

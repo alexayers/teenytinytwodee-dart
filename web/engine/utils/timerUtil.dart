@@ -1,11 +1,9 @@
+class TimerUtil {
+  var _startTime = 0;
 
-
-class Timer {
-
-  var _startTime = 0 ;
   var _waitTime = 0;
 
-  Timer(var waitTime) {
+  TimerUtil(var waitTime) {
     _waitTime = waitTime;
   }
 
@@ -18,8 +16,7 @@ class Timer {
     _startTime = DateTime.now().millisecondsSinceEpoch;
   }
 
-  bool hasTimePassed()  {
+  bool hasTimePassed() {
     return _startTime + _waitTime < DateTime.now().millisecondsSinceEpoch;
-}
-
+  }
 }

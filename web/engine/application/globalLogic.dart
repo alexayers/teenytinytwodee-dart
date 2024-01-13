@@ -1,7 +1,4 @@
-
-
 class GlobalLogic {
-
   final List<Function> _globalCallbacks = [];
 
   void registerLogic(Function function) {
@@ -9,10 +6,8 @@ class GlobalLogic {
   }
 
   void execute() {
-
     for (var callback in _globalCallbacks) {
       callback();
     }
   }
-
 }

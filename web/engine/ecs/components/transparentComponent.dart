@@ -1,10 +1,6 @@
 import '../gameComponent.dart';
 
-class TransparentComponent extends GameComponent {
-
-
-
+class TransparentComponent implements GameComponent {
   @override
   String get name => "transparent";
-
 }

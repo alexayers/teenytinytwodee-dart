@@ -1,10 +1,6 @@
-
-
 import '../../gameComponent.dart';
 
-class BuildActionComponent extends GameComponent {
+class SearchActionComponent implements GameComponent {
   @override
-  // TODO: implement name
-  String get name => throw UnimplementedError();
-
+  String get name => "search";
 }

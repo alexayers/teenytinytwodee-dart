@@ -34,8 +34,9 @@ class Renderer {
     _calculationCanvasCtx =
         _calculationCanvas.getContext('2d') as CanvasRenderingContext2D;
 
-    _dataCanvas = CanvasElement(width: 1024, height: 1024);
+    _dataCanvas = CanvasElement(width: 800, height: 600);
     _dataContext = _dataCanvas.getContext('2d') as CanvasRenderingContext2D;
+    disabledImageSmoothing();
   }
 
   static void clearScreen() {
@@ -52,32 +53,23 @@ class Renderer {
     _ctx.imageSmoothingEnabled = false;
   }
 
-  static void renderImage(ImageElement image, int x, int y, int width, int height, [bool flip = false]) {
-
+  static void renderImage(
+      ImageElement image, num x, num y, int width, int height,
+      [bool flip = false]) {
     if (flip) {
-
       _ctx.translate(x + width, y);
-      _ctx.scale(-1,1);
+      _ctx.scale(-1, 1);
 
-      _ctx.drawImageScaled(
-          image,
-          0,0, width, height
-      );
+      _ctx.drawImageScaled(image, 0, 0, width, height);
 
-      _ctx.setTransform(1,0,0,1,0,0);
-
+      _ctx.setTransform(1, 0, 0, 1, 0, 0);
     } else {
-      _ctx.drawImageScaled(
-          image,
-          x,
-          y,
-          width,
-          height
-      );
+      _ctx.drawImageScaled(image, x, y, width, height);
     }
   }
 
-  static void renderClippedImage(ImageElement image,
+  static void renderClippedImage(
+      ImageElement image,
       num sourceX,
       num sourceY,
       num sourceWidth,
@@ -86,13 +78,8 @@ class Renderer {
       num destY,
       num destWidth,
       num destHeight) {
-
-    _ctx.drawImageScaledFromSource(
-        image,
-        sourceX, sourceY, sourceWidth, sourceHeight,
-        destX, destY, destWidth, destHeight
-    );
-
+    _ctx.drawImageScaledFromSource(image, sourceX, sourceY, sourceWidth,
+        sourceHeight, destX, destY, destWidth, destHeight);
   }
 
   static num calculateTextWidth(String text, String font) {
@@ -102,13 +89,14 @@ class Renderer {
   }
 
   static void print(String msg, int x, int y, Font font) {
-    _ctx.font = "$font.style $font.size px $font.family";
+    _ctx.font = "${font.style} ${font.size}px ${font.family}";
     _ctx.fillStyle =
         ColorUtils.rbgToHex(font.color.red, font.color.green, font.color.blue);
 
     setAlpha(font.color.alpha);
 
     _ctx.fillText(msg, x, y);
+
     setAlpha(1);
   }
 

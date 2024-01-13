@@ -1,9 +1,8 @@
-
-
 import 'dart:html';
 
-class Sprite {
+import 'renderer.dart';
 
+class Sprite {
   int width;
   int height;
   ImageElement image;
@@ -12,4 +11,7 @@ class Sprite {
     image.src = imageFile;
   }
 
+  void render(num x, num y, int width, int height, [bool flip = false]) {
+    Renderer.renderImage(image, x, y, width, height, flip);
+  }
 }

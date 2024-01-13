@@ -1,26 +1,33 @@
-
-
 import '../../ecs/components/doorComponent.dart';
 import '../../ecs/components/pushWallComponent.dart';
 import '../../ecs/gameEntity.dart';
+import '../../primitives/color.dart';
+import '../sprite.dart';
 import 'renderPerformance.dart';
 
-enum DoorState {
-  closed,
-  opening,
-  open,
-  closing
+enum DoorState { closed, opening, open, closing }
+
+class WorldDefinition {
+  late List<int> grid;
+  late List<GameEntity?> items;
+  late Sprite? skyBox;
+  late Color skyColor;
+  late Color floorColor;
+  late Map<int, GameEntity> translationTable;
+  late num lightRange;
+  late int width;
+  late int height;
 }
 
-
 class WorldMap {
-
   static WorldMap? _instance;
   late List<GameEntity> _gameMap = [];
-  late final int _worldWidth = 10;
-  late final int _worldHeight = 10;
+  late int _worldWidth;
+  late int _worldHeight;
   List<num> _doorOffsets = [];
   List<DoorState> _doorStates = [];
+  late WorldDefinition _worldDefinition;
+  bool _worldLoaded = false;
 
   WorldMap._privateConstructor();
 
@@ -29,13 +36,16 @@ class WorldMap {
     return _instance!;
   }
 
-  void loadMap(List<int> grid, Map<int, GameEntity> translationTable) {
+  void loadMap(WorldDefinition worldDefinition) {
+    _worldDefinition = worldDefinition;
+    _worldWidth = worldDefinition.width;
+    _worldHeight = worldDefinition.height;
 
-    for (int y =0; y < _worldHeight; y++) {
+    for (int y = 0; y < _worldHeight; y++) {
       for (int x = 0; x < _worldWidth; x++) {
         int pos = x + (y * _worldWidth);
-        int value = grid[pos];
-        _gameMap.add(translationTable[value]!);
+        int value = worldDefinition.grid[pos];
+        _gameMap.add(worldDefinition.translationTable[value]!);
       }
     }
 
@@ -44,24 +54,31 @@ class WorldMap {
       _doorStates.add(DoorState.closed);
     }
 
+    _worldLoaded = true;
   }
 
   void moveDoors() {
+    if (!_worldLoaded) {
+      return;
+    }
 
     for (int y = 0; y < _worldHeight; y++) {
       for (int x = 0; x < _worldWidth; x++) {
-
         GameEntity gameEntity = getEntityAtPosition(x, y);
 
-        if (gameEntity.hasComponent("door")) { //Standard door
-          if (getDoorState(x, y) == DoorState.opening) {//Open doors
-            setDoorOffset(x, y, getDoorOffset(x, y) + RenderPerformance.deltaTime / 100);
+        if (gameEntity.hasComponent("door")) {
+          //Standard door
+          if (getDoorState(x, y) == DoorState.opening) {
+            //Open doors
+            setDoorOffset(
+                x, y, getDoorOffset(x, y) + RenderPerformance.deltaTime / 100);
 
             if (getDoorOffset(x, y) > 1) {
               setDoorOffset(x, y, 1);
-              setDoorState(x, y, DoorState.open);//Set state to open
+              setDoorState(x, y, DoorState.open); //Set state to open
 
-              DoorComponent door  = gameEntity.getComponent("door") as DoorComponent;
+              DoorComponent door =
+                  gameEntity.getComponent("door") as DoorComponent;
               door.openDoor();
 
               Future.delayed(Duration(seconds: 5), () {
@@ -70,36 +87,37 @@ class WorldMap {
                 var door = gameEntity.getComponent("door") as DoorComponent;
                 door.closeDoor();
               });
-
             }
           } else if (getDoorState(x, y) == DoorState.closing) {
-            setDoorOffset(x, y, getDoorOffset(x, y) - RenderPerformance.deltaTime / 100);
+            setDoorOffset(
+                x, y, getDoorOffset(x, y) - RenderPerformance.deltaTime / 100);
 
-            if (this.getDoorOffset(x, y) < 0) {
-              this.setDoorOffset(x, y, 0);
-              this.setDoorState(x, y, DoorState.closed);
+            if (getDoorOffset(x, y) < 0) {
+              setDoorOffset(x, y, 0);
+              setDoorState(x, y, DoorState.closed);
 
-              DoorComponent door  = gameEntity.getComponent("door") as DoorComponent;
+              DoorComponent door =
+                  gameEntity.getComponent("door") as DoorComponent;
               door.closeDoor();
             }
           }
         } else if (gameEntity.hasComponent("pushWall")) {
           if (getDoorState(x, y) == DoorState.opening) {
-            setDoorOffset(x, y, getDoorOffset(x, y) + RenderPerformance.deltaTime / 100);
+            setDoorOffset(
+                x, y, getDoorOffset(x, y) + RenderPerformance.deltaTime / 100);
 
             if (getDoorOffset(x, y) > 2) {
               setDoorOffset(x, y, 2);
               setDoorState(x, y, DoorState.open);
 
-              PushWallComponent pushWall  = gameEntity.getComponent("pushWall") as PushWallComponent;
+              PushWallComponent pushWall =
+                  gameEntity.getComponent("pushWall") as PushWallComponent;
               pushWall.openWall();
             }
           }
         }
       }
     }
-
-
   }
 
   GameEntity getEntityAtPosition(int x, int y) {
@@ -122,9 +140,5 @@ class WorldMap {
     _doorOffsets[x + (y * _worldWidth)] = offset;
   }
 
-
-
-
   List<GameEntity> get gameMap => _gameMap;
-
 }

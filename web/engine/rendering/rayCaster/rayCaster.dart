@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import '../../ecs/components/spriteComponent.dart';
 import '../../ecs/gameEntity.dart';
 import '../../ecs/gameEntityRegistry.dart';
@@ -5,14 +7,10 @@ import '../../primitives/color.dart';
 import '../renderer.dart';
 import '../sprite.dart';
 import 'camera.dart';
-import 'dart:math' as math;
-
 import 'transparentWall.dart';
 import 'worldMap.dart';
 
-
 class RayCaster {
-
   List<num> _cameraXCoords = [];
   List<num> _zBuffer = [];
   List<TransparentWall> _transparentWalls = [];
@@ -114,14 +112,16 @@ class RayCaster {
           }
         } else if (gameEntity.hasComponent("pushWall") &&
             worldMap.getDoorState(mapX, mapY) != DoorState.open) {
-          if (side == 1 && sideDistY -
-              (deltaDistY * (1 - worldMap.getDoorOffset(mapX, mapY))) <
-              sideDistX) {
+          if (side == 1 &&
+              sideDistY -
+                      (deltaDistY * (1 - worldMap.getDoorOffset(mapX, mapY))) <
+                  sideDistX) {
             hit = 1;
             wallYOffset = worldMap.getDoorOffset(mapX, mapY) * stepY;
-          } else if (side == 0 && sideDistX -
-              (deltaDistX * (1 - worldMap.getDoorOffset(mapX, mapY))) <
-              sideDistY) {
+          } else if (side == 0 &&
+              sideDistX -
+                      (deltaDistX * (1 - worldMap.getDoorOffset(mapX, mapY))) <
+                  sideDistY) {
             hit = 1;
             wallXOffset = worldMap.getDoorOffset(mapX, mapY) * stepX;
           }
@@ -163,15 +163,15 @@ class RayCaster {
           }
         } else if (!gameEntity.hasComponent("door") &&
             !gameEntity.hasComponent("pushWall")) {
-          GameEntity adjacentGameEntityUp = worldMap.getEntityAtPosition(
-              mapX, mapY - stepY);
-          GameEntity adjacentGameEntityAcross = worldMap.getEntityAtPosition(
-              mapX - stepX, mapY);
+          GameEntity adjacentGameEntityUp =
+              worldMap.getEntityAtPosition(mapX, mapY - stepY);
+          GameEntity adjacentGameEntityAcross =
+              worldMap.getEntityAtPosition(mapX - stepX, mapY);
 
           if (side == 1 && adjacentGameEntityUp.hasComponent("door")) {
             rayTex = 4;
-          } else
-          if (side == 0 && adjacentGameEntityAcross.hasComponent("door")) {
+          } else if (side == 0 &&
+              adjacentGameEntityAcross.hasComponent("door")) {
             rayTex = 4;
           }
 
@@ -180,21 +180,12 @@ class RayCaster {
       }
     }
 
-    perpWallDist = calculatePerpWall(
-        side,
-        mapX,
-        mapY,
-        camera,
-        wallXOffset,
-        wallYOffset,
-        stepX,
-        stepY,
-        rayDirX,
-        rayDirY);
+    perpWallDist = calculatePerpWall(side, mapX, mapY, camera, wallXOffset,
+        wallYOffset, stepX, stepY, rayDirX, rayDirY);
 
     int lineHeight = (Renderer.getCanvasHeight() / perpWallDist).round();
-    double drawStart = -lineHeight / 2 +
-        (Renderer.getCanvasHeight() / 2).round();
+    double drawStart =
+        -lineHeight / 2 + (Renderer.getCanvasHeight() / 2).round();
 
     if (side == 0) {
       wallX = camera.yPos + perpWallDist * rayDirY;
@@ -213,10 +204,9 @@ class RayCaster {
       gameEntity = GameEntityRegistry.instance.getSingleton("doorFrame");
     }
 
-    SpriteComponent sprite = gameEntity.getComponent(
-        "sprite") as SpriteComponent;
+    SpriteComponent sprite =
+        gameEntity.getComponent("sprite") as SpriteComponent;
     Sprite wallTex = sprite.sprite;
-
 
     int texX = (wallX * wallTex.image.width!).floor();
     if (side == 0 && rayDirX > 0) {
@@ -225,15 +215,8 @@ class RayCaster {
       texX = wallTex.image.width! - texX - 1;
     }
 
-    Renderer.renderClippedImage(
-        wallTex.image,
-        texX, 0,
-        1,
-        wallTex.image.height!,
-        x,
-        drawStart,
-        1,
-        lineHeight);
+    Renderer.renderClippedImage(wallTex.image, texX, 0, 1,
+        wallTex.image.height!, x, drawStart, 1, lineHeight);
     renderShadows(perpWallDist, x, drawStart, lineHeight);
 
     _zBuffer.add(perpWallDist);
@@ -243,13 +226,20 @@ class RayCaster {
     double lightRange = 6;
     double calculatedAlpha = math.max((perpWallDist + 0.002) / lightRange, 0);
 
-    Renderer.rect(
-        x.toInt(), drawStart.toInt(), 1, lineHeight + 1, Color(0, 0, 0, calculatedAlpha)
-    );
+    Renderer.rect(x.toInt(), drawStart.toInt(), 1, lineHeight + 1,
+        Color(0, 0, 0, calculatedAlpha));
   }
 
-  double calculatePerpWall(int side, int mapX, int mapY, Camera camera,
-      num wallXOffset, num wallYOffset, int stepX, int stepY, num rayDirX,
+  double calculatePerpWall(
+      int side,
+      int mapX,
+      int mapY,
+      Camera camera,
+      num wallXOffset,
+      num wallYOffset,
+      int stepX,
+      int stepY,
+      num rayDirX,
       num rayDirY) {
     double perpWallDist = 0;
 
@@ -264,15 +254,12 @@ class RayCaster {
     return perpWallDist;
   }
 
-  void drawSpritesAndTransparentWalls(Camera camera) {
-
-  }
+  void drawSpritesAndTransparentWalls(Camera camera) {}
 
   void drawSkyBox(Color groundColor, Color skyColor) {
     // Sky
-    Renderer.rect(
-        0, 0, Renderer.getCanvasWidth(), Renderer.getCanvasHeight() / 2,
-        skyColor);
+    Renderer.rect(0, 0, Renderer.getCanvasWidth(),
+        Renderer.getCanvasHeight() / 2, skyColor);
 
     // Ground
     Renderer.rect(0, Renderer.getCanvasHeight() / 2, Renderer.getCanvasWidth(),

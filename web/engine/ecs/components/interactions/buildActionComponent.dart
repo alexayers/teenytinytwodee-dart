@@ -1,10 +1,6 @@
-
-
 import '../../gameComponent.dart';
 
-class BuildActionComponent extends GameComponent {
+class BuildActionComponent implements GameComponent {
   @override
-  // TODO: implement name
-  String get name => throw UnimplementedError();
-
+  String get name => "buildAction";
 }

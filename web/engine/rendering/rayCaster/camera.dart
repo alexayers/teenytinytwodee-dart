@@ -40,7 +40,8 @@ class Camera {
       }
     }
 
-    gameEntity = worldMap.getEntityAtPosition(xPos.floor(), (yPos + moveY).floor());
+    gameEntity =
+        worldMap.getEntityAtPosition(xPos.floor(), (yPos + moveY).floor());
 
     if (gameEntity.hasComponent("floor")) {
       yPos += moveY;

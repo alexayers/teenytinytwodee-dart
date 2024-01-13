@@ -1,10 +1,10 @@
-
-
 import '../../gameComponent.dart';
 
-class BuildActionComponent extends GameComponent {
-  @override
-  // TODO: implement name
-  String get name => throw UnimplementedError();
+class CanInteractComponent implements GameComponent {
+  Function? callBack;
 
+  CanInteractComponent([this.callBack]);
+
+  @override
+  String get name => "canInteract";
 }

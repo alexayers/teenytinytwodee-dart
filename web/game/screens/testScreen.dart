@@ -1,5 +1,4 @@
 import '../../engine/application/gameScreen.dart';
-import '../../engine/application/globalState.dart';
 import '../../engine/ecs/components/cameraComponent.dart';
 import '../../engine/ecs/components/doorComponent.dart';
 import '../../engine/ecs/components/floorComponent.dart';
@@ -38,40 +37,131 @@ class MainScreen implements GameScreen {
 
     _gameRenderSystems.add(RayCastRenderSystem());
 
-    GameEntity wall =
-    GameEntityBuilder("wall").addComponent(WallComponent())
+    GameEntity wall = GameEntityBuilder("wall")
+        .addComponent(WallComponent())
         .addComponent(
-        SpriteComponent(Sprite(128, 128, "../../assets/wall.png")))
+            SpriteComponent(Sprite(128, 128, "../../assets/wall.png")))
         .build();
 
     GameEntity floor =
-    GameEntityBuilder("floor").addComponent(FloorComponent()).build();
+        GameEntityBuilder("floor").addComponent(FloorComponent()).build();
 
     GameEntity door = GameEntityBuilder("door")
         .addComponent(DoorComponent())
         .addComponent(
-        SpriteComponent(Sprite(128, 128, "../../assets/door.png")))
+            SpriteComponent(Sprite(128, 128, "../../assets/door.png")))
         .build();
 
     GameEntity doorFrame = GameEntityBuilder("doorFrame")
         .addComponent(WallComponent())
-        .addComponent(SpriteComponent(
-        Sprite(128, 128, "../../assets/doorFrame.png")))
+        .addComponent(
+            SpriteComponent(Sprite(128, 128, "../../assets/doorFrame.png")))
         .build();
 
     _gameEntityRegistry.registerSingleton(doorFrame);
 
     List<int> grid = [
-      1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-      1, 0, 0, 0, 1, 0, 0, 0, 0, 1,
-      1, 0, 0, 0, 3, 0, 0, 0, 0, 1,
-      1, 0, 0, 0, 1, 0, 0, 0, 0, 1,
-      1, 1, 1, 0, 1, 1, 1, 1, 1, 1,
-      1, 0, 1, 0, 1, 0, 0, 0, 0, 1,
-      1, 0, 1, 0, 1, 1, 1, 0, 0, 1,
-      1, 0, 1, 0, 0, 0, 0, 0, 0, 1,
-      1, 0, 0, 0, 1, 0, 1, 0, 0, 1,
-      1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      1,
+      1,
+      0,
+      0,
+      0,
+      3,
+      0,
+      0,
+      0,
+      0,
+      1,
+      1,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      1,
+      1,
+      1,
+      1,
+      0,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      0,
+      1,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      1,
+      1,
+      0,
+      1,
+      0,
+      1,
+      1,
+      1,
+      0,
+      0,
+      1,
+      1,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      1,
+      0,
+      0,
+      0,
+      1,
+      0,
+      1,
+      0,
+      0,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+    ];
 
     Map<int, GameEntity> translationTable = {};
 
@@ -79,13 +169,12 @@ class MainScreen implements GameScreen {
     translationTable[1] = wall;
     translationTable[0] = floor;
 
-    _worldMap.loadMap(grid, translationTable);
+    // _worldMap.loadMap(grid, translationTable);
 
     _player = GameEntityBuilder("player")
         .addComponent(CameraComponent(Camera(2, 2, 0, 1, 0.66)))
         .addComponent(VelocityComponent(0, 0))
         .build();
-
 
     _gameEntityRegistry.registerSingleton(_player);
   }
@@ -98,8 +187,8 @@ class MainScreen implements GameScreen {
 
     GameEntity player = _gameEntityRegistry.getSingleton("player");
     CameraComponent camera = player.getComponent("camera") as CameraComponent;
-    VelocityComponent velocity = player.getComponent(
-        "velocity") as VelocityComponent;
+    VelocityComponent velocity =
+        player.getComponent("velocity") as VelocityComponent;
 
     if (isKeyDown(keyboardInput.up)) {
       moveX += camera.camera.xDir;

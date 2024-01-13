@@ -1,5 +1,3 @@
-
-
 class PathNode {
   int x;
   int y;

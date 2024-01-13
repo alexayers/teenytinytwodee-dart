@@ -1,10 +1,7 @@
-
-
 import 'gameComponent.dart';
 import 'gameEntity.dart';
 
 class GameEntityBuilder {
-
   final GameEntity _gameEntity;
 
   GameEntityBuilder(String name) : _gameEntity = GameEntity(name);
@@ -17,5 +14,4 @@ class GameEntityBuilder {
   GameEntity build() {
     return _gameEntity;
   }
-
 }

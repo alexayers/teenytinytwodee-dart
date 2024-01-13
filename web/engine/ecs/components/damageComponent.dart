@@ -1,10 +1,10 @@
+import '../gameComponent.dart';
 
+class DamageComponent implements GameComponent {
+  int amount;
 
-import '../../gameComponent.dart';
+  DamageComponent(this.amount);
 
-class BuildActionComponent extends GameComponent {
   @override
-  // TODO: implement name
-  String get name => throw UnimplementedError();
-
+  String get name => "damage";
 }

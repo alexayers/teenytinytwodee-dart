@@ -1,4 +1,3 @@
-
 import '../input/mouse.dart';
 
 abstract class GameScreen {
@@ -16,5 +15,5 @@ abstract class GameScreen {
 
   void mouseClick(double x, double y, MouseButton mouseButton);
 
-  void mouseMove(double x,double y);
+  void mouseMove(double x, double y);
 }

@@ -1,10 +1,11 @@
-
-
+import '../../../rendering/sprite.dart';
 import '../../gameComponent.dart';
 
-class BuildActionComponent extends GameComponent {
-  @override
-  // TODO: implement name
-  String get name => throw UnimplementedError();
+class CanDamageComponent implements GameComponent {
+  Sprite sprite;
 
+  CanDamageComponent(this.sprite);
+
+  @override
+  String get name => "canDamage";
 }

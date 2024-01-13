@@ -9,6 +9,7 @@ var keyboardInput = (
   right: 39,
   enter: 13,
   delete: 8,
+  shift: 16,
   one: 49,
   two: 50,
   three: 51,
@@ -48,11 +49,13 @@ var keyboardInput = (
 );
 
 bool isKeyDown(int keyCode) {
-
   if (GlobalState.hasState("KEY_$keyCode")) {
     return GlobalState.getState('KEY_$keyCode');
   } else {
     return false;
   }
+}
 
+void flushKeys() {
+  GlobalState.removeWhere("KEY");
 }

@@ -1,7 +1,9 @@
-name: raycaster
-description: An absolute bare-bones web app.
+name: teenytinytwodee
+description: A rapid prototyping framework for 2D games
 version: 1.0.0
-# repository: https://github.com/my_org/my_repo
+repository: https://github.com/alexayers/teenytinytwodee-dart
+authors:
+  - Alex Ayers
 
 environment:
   sdk: ^3.2.4

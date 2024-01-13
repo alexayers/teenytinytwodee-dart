@@ -1,9 +1,11 @@
+import '../../engine/ecs/components/animatedSpriteComponent.dart';
 import '../../engine/ecs/gameComponent.dart';
 
-class BuildingComponent extends GameComponent {
+class OnPowerAnimatedSpriteComponent implements GameComponent {
+  AnimatedSpriteComponent animatedSpriteComponent;
+
+  OnPowerAnimatedSpriteComponent(this.animatedSpriteComponent);
 
   @override
-  // TODO: implement name
-  String get name => throw UnimplementedError();
-
+  String get name => "onPowerAnimatedSprite";
 }

@@ -1,13 +1,8 @@
-
-
 import '../../gameRenderSystem.dart';
 
-class ParticleRenderSystem extends GameRenderSystem {
-
+class ParticleRenderSystem implements GameRenderSystem {
   @override
   void process() {
     // TODO: implement process
   }
-
-
 }

@@ -1,9 +1,7 @@
 import '../gameComponent.dart';
 
-class DoorComponent extends GameComponent {
-
+class DoorComponent implements GameComponent {
   bool open = false;
-
 
   void openDoor() {
     open = true;
@@ -19,5 +17,4 @@ class DoorComponent extends GameComponent {
 
   @override
   String get name => "door";
-
 }

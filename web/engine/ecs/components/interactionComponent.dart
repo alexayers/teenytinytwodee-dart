@@ -1,10 +1,6 @@
 import '../gameComponent.dart';
 
-class InteractionComponent extends GameComponent {
-
-
-
+class InteractionComponent implements GameComponent {
   @override
   String get name => "interaction";
-
 }
