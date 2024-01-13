@@ -53,7 +53,7 @@ class GameScreenBase {
   List<GameEntity> requiresPower = [];
   bool _useTool = false;
   final Map<int, GameEntity> translationTable = {};
-  final TimerUtil _walkTimer = TimerUtil(120);
+  final TimerUtil _walkTimer = TimerUtil(550);
 
   GameScreenBase() {
     registerSystems([
@@ -99,7 +99,6 @@ class GameScreenBase {
     num moveX = 0;
     num moveY = 0;
 
-    GameEntity player = gameEntityRegistry.getSingleton("player");
     InventoryComponent inventory =
         player.getComponent("inventory") as InventoryComponent;
     CameraComponent camera = player.getComponent("camera") as CameraComponent;

@@ -18,7 +18,7 @@ class PressEnterScreen implements GameScreen {
   @override
   void keyboard() {
     if (isKeyDown(keyboardInput.enter)) {
-      GameEventBus.publish(ScreenChangeEvent(Screens.planetSurface.name));
+      GameEventBus.publish(ScreenChangeEvent(Screens.scienceLab.name));
     }
   }
 

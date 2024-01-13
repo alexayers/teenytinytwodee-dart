@@ -287,8 +287,6 @@ class PlanetSurfaceScreen extends GameScreenBase implements GameScreen {
     createGameMap();
     walkSound = "dirtStep";
 
-    player = gameEntityRegistry.getSingleton("player");
-
     if (_firstEnter) {
       camera = Camera(67, 62, -0.66, 0.6, 0.66);
       _firstEnter = false;

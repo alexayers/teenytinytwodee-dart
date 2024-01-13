@@ -3,8 +3,8 @@ import 'audioFile.dart';
 
 class AudioManager {
   static AudioManager? _instance;
-  bool _audioEnabled = true;
-  Map<String, AudioFile> _soundMap = {};
+  final bool _audioEnabled = true;
+  final Map<String, AudioFile> _soundMap = {};
 
   AudioManager._privateConstructor();
 
