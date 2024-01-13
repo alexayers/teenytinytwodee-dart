@@ -25,7 +25,6 @@ import '../../engine/rendering/sprite.dart';
 import '../../fonts.dart';
 import '../components/oxygenComponent.dart';
 import '../systems/rendering/airLockParticleRenderSystem.dart';
-import '../systems/rendering/buildingRenderSystem.dart';
 import '../systems/rendering/dustRenderSystem.dart';
 import '../systems/rendering/helmetRenderSystem.dart';
 import 'gameScreenBase.dart';

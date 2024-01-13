@@ -1,3 +1,4 @@
+import '../../../logger/logger.dart';
 import '../../../rendering/rayCaster/renderPerformance.dart';
 import '../../components/cameraComponent.dart';
 import '../../components/velocityComponent.dart';

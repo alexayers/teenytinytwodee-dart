@@ -34,7 +34,7 @@ import '../systems/entity/repairSystem.dart';
 
 class GameScreenBase {
   late String walkSound;
-  num _moveSpeed = 0.05;
+  final num _moveSpeed = 0.065;
 
   final AudioManager audioManager = AudioManager.instance;
   final GameEntityRegistry gameEntityRegistry = GameEntityRegistry.instance;
@@ -47,8 +47,8 @@ class GameScreenBase {
 
   num _moveSway = 0;
   bool _updateSway = false;
-  late num _lastXPos;
-  late num _lastYPos;
+  late num _lastXPos =0;
+  late num _lastYPos = 0;
   int _moves = 0;
   List<GameEntity> requiresPower = [];
   bool _useTool = false;
@@ -71,6 +71,7 @@ class GameScreenBase {
 
   void sway() {
     if (!_updateSway) {
+
       num sway = _moveSway % (pi * 2);
       num diff = 0;
 
@@ -101,7 +102,7 @@ class GameScreenBase {
 
     InventoryComponent inventory =
         player.getComponent("inventory") as InventoryComponent;
-    CameraComponent camera = player.getComponent("camera") as CameraComponent;
+
     VelocityComponent velocity =
         player.getComponent("velocity") as VelocityComponent;
 
@@ -130,8 +131,8 @@ class GameScreenBase {
     }
 
     if (isKeyDown(keyboardInput.up)) {
-      moveX += camera.camera.xDir;
-      moveY += camera.camera.yDir;
+      moveX += camera.xDir;
+      moveY += camera.yDir;
       _updateSway = true;
       _moves++;
 
@@ -142,8 +143,8 @@ class GameScreenBase {
     }
 
     if (isKeyDown(keyboardInput.down)) {
-      moveX -= camera.camera.xDir;
-      moveY -= camera.camera.yDir;
+      moveX -= camera.xDir;
+      moveY -= camera.yDir;
       _updateSway = true;
       _moves++;
 
@@ -188,8 +189,8 @@ class GameScreenBase {
     velocity.velX = moveX;
     velocity.velY = moveY;
 
-    _lastXPos = camera.camera.xPos;
-    _lastYPos = camera.camera.yPos;
+    _lastXPos = camera.xPos;
+    _lastYPos = camera.yPos;
   }
 
   void logicLoop() {
@@ -300,8 +301,9 @@ class GameScreenBase {
   }
 
   void registerSystems(List<GameSystem> systems) {
-    for (var systems in gameSystems) {
-      gameSystems.add(systems);
+
+    for (var system in systems) {
+      gameSystems.add(system);
     }
   }
 

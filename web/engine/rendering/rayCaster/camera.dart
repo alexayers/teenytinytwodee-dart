@@ -2,6 +2,7 @@ import 'dart:math';
 
 import '../../ecs/components/doorComponent.dart';
 import '../../ecs/gameEntity.dart';
+import '../../logger/logger.dart';
 import '../../utils/mathUtils.dart';
 import 'worldMap.dart';
 
@@ -23,10 +24,6 @@ class Camera {
     WorldMap worldMap = WorldMap.instance;
     GameEntity gameEntity =
         worldMap.getEntityAtPosition((xPos + moveX).floor(), yPos.floor());
-
-    if (gameEntity == null) {
-      return;
-    }
 
     if (gameEntity.hasComponent("floor")) {
       xPos += moveX;

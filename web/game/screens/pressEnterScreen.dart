@@ -50,6 +50,11 @@ class PressEnterScreen implements GameScreen {
   @override
   void renderLoop() {
     Renderer.print(
-        "Press enter", 50, 50, Font(Fonts.oxanium.name, 20, Colors.white));
+        "Press enter to begin", 250, 50, Font(Fonts.oxanium.name, 20, Colors.white));
+
+    Renderer.print(
+        "Number keys navigate inventory", 250, 90, Font(Fonts.oxanium.name, 20, Colors.white));
+    Renderer.print(
+        "Space to interact or use", 250, 140, Font(Fonts.oxanium.name, 20, Colors.white));
   }
 }
