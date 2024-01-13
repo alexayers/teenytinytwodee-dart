@@ -1,9 +1,9 @@
 import '../gameComponent.dart';
 
 class DistanceComponent implements GameComponent {
-  int distance;
+  num distance;
 
-  DistanceComponent(int value) : distance = value;
+  DistanceComponent(num value) : distance = value;
 
   @override
   String get name => "distance";

@@ -14,10 +14,10 @@ import 'screens.dart';
 
 class MainMenuScreen implements GameScreen {
   int _currentMenuIdx = 0;
-  List<String> _menuItems = [];
-  TimerUtil _timer = TimerUtil(100);
+  final List<String> _menuItems = [];
+  final TimerUtil _timer = TimerUtil(100);
   num _satX = 0;
-  TimerUtil _blinkTimer = TimerUtil(1000);
+  final TimerUtil _blinkTimer = TimerUtil(1000);
   AudioManager audioManager = AudioManager.instance;
 
   @override
@@ -59,7 +59,7 @@ class MainMenuScreen implements GameScreen {
     }
     if (isKeyDown(keyboardInput.enter)) {
       if (_currentMenuIdx == 0) {
-        GameEventBus.publish(ScreenChangeEvent(Screens.backStory.name));
+        GameEventBus.publish(ScreenChangeEvent(Screens.scienceLab.name));
       }
     }
   }

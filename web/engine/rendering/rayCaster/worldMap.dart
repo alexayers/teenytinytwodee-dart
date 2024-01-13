@@ -9,7 +9,7 @@ enum DoorState { closed, opening, open, closing }
 
 class WorldDefinition {
   late List<int> grid;
-  late List<GameEntity?> items;
+  late List<GameEntity> items = [];
   late Sprite? skyBox;
   late Color skyColor;
   late Color floorColor;
@@ -120,6 +120,26 @@ class WorldMap {
     }
   }
 
+  List<GameEntity> getWorldItems() {
+    return worldDefinition.items;
+  }
+
+  void removeWorldItem(GameEntity gameEntity) {
+
+    int index = -1;
+    for (int i = 0; i < worldDefinition.items.length; i++) {
+      if (gameEntity.id == worldDefinition.items[i].id) {
+        index = i;
+      }
+    }
+
+    if (index > -1) {
+      worldDefinition.items.removeAt(index);
+    }
+
+
+  }
+
   GameEntity getEntityAtPosition(int x, int y) {
     return _gameMap[x + (y * _worldWidth)];
   }
@@ -141,4 +161,6 @@ class WorldMap {
   }
 
   List<GameEntity> get gameMap => _gameMap;
+
+
 }

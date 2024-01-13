@@ -30,4 +30,6 @@ class GameEntity {
   Map<String, GameComponent> get gameComponents => _gameComponents;
 
   String get name => _name;
+
+  String get id => _id;
 }

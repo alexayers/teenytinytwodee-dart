@@ -1,6 +1,7 @@
 import '../../../rendering/rayCaster/camera.dart';
 import '../../../rendering/rayCaster/worldMap.dart';
 import '../../components/cameraComponent.dart';
+import '../../components/properties/canInteractComponent.dart';
 import '../../gameEntity.dart';
 import '../../gameSystem.dart';
 
@@ -9,14 +10,74 @@ class InteractionSystem implements GameSystem {
 
   @override
   void processEntity(GameEntity gameEntity) {
-    CameraComponent camera =
-        gameEntity.getComponent("camera") as CameraComponent;
+    CameraComponent cameraComponent  = gameEntity.getComponent("camera") as CameraComponent;
 
-    interact(camera.camera);
-    gameEntity.removeComponent("interaction");
+    if (!isDamaged(cameraComponent.camera)) {
+      if (!interactDoor(cameraComponent.camera)) {
+        interactObject(cameraComponent.camera);
+      }
+
+      gameEntity.removeComponent("interacting");
+    }
   }
 
-  void interact(Camera camera) {
+  bool isDamaged(Camera camera) {
+    int checkMapX = (camera.xPos + camera.xDir).floor();
+    int checkMapY = (camera.yPos + camera.yDir).floor();
+
+    int checkMapX2 = (camera.xPos + camera.xDir * 2).floor();
+    int checkMapY2 = (camera.yPos + camera.yDir * 2).floor();
+
+    GameEntity gameEntity  = _worldMap.getEntityAtPosition(checkMapX, checkMapY);
+
+    if (gameEntity.hasComponent("damaged")) {
+      return true;
+    }
+
+    gameEntity = _worldMap.getEntityAtPosition(checkMapX2, checkMapY2);
+
+    if (gameEntity.hasComponent("damaged")) {
+      return true;
+    }
+
+    return false;
+  }
+
+  void interactObject(Camera camera) {
+    int checkMapX = (camera.xPos + camera.xDir).floor();
+    int checkMapY = (camera.yPos + camera.yDir).floor();
+
+    int checkMapX2 = (camera.xPos + camera.xDir * 2).floor();
+    int checkMapY2 = (camera.yPos + camera.yDir * 2).floor();
+
+    GameEntity gameEntity  = _worldMap.getEntityAtPosition(checkMapX, checkMapY);
+
+    if (gameEntity.hasComponent("canInteract")) {
+      CanInteractComponent canInteract  = gameEntity.getComponent("canInteract") as CanInteractComponent;
+
+      if (canInteract.callBack != null) {
+          canInteract.callBack!();
+      }
+
+
+      return;
+    }
+
+    gameEntity = _worldMap.getEntityAtPosition(checkMapX2, checkMapY2);
+
+    if (gameEntity.hasComponent("canInteract")) {
+
+      CanInteractComponent canInteract  = gameEntity.getComponent("canInteract") as CanInteractComponent;
+
+      if (canInteract.callBack != null) {
+        canInteract.callBack!();
+      }
+
+      return;
+    }
+  }
+
+  bool interactDoor(Camera camera) {
     int checkMapX = (camera.xPos + camera.xDir).floor();
     int checkMapY = (camera.yPos + camera.yDir).floor();
 
@@ -30,7 +91,7 @@ class InteractionSystem implements GameSystem {
             _worldMap.getDoorState(checkMapX, checkMapY) == DoorState.closed) {
       //Open door in front of camera
       _worldMap.setDoorState(checkMapX, checkMapY, DoorState.opening);
-      return;
+      return true;
     }
 
     gameEntity = _worldMap.getEntityAtPosition(checkMapX2, checkMapY2);
@@ -40,7 +101,7 @@ class InteractionSystem implements GameSystem {
             _worldMap.getDoorState(checkMapX2, checkMapY2) ==
                 DoorState.closed) {
       _worldMap.setDoorState(checkMapX2, checkMapY2, DoorState.opening);
-      return;
+      return true;
     }
 
     gameEntity = _worldMap.getEntityAtPosition(checkMapX, checkMapY);
@@ -50,7 +111,7 @@ class InteractionSystem implements GameSystem {
             _worldMap.getDoorState(checkMapX, checkMapY) == DoorState.open) {
       //Open door in front of camera
       _worldMap.setDoorState(checkMapX, checkMapY, DoorState.closing);
-      return;
+      return true;
     }
 
     gameEntity = _worldMap.getEntityAtPosition(checkMapX2, checkMapY2);
@@ -59,7 +120,7 @@ class InteractionSystem implements GameSystem {
         gameEntity.hasComponent("pushWall") &&
             _worldMap.getDoorState(checkMapX2, checkMapY2) == DoorState.open) {
       _worldMap.setDoorState(checkMapX2, checkMapY2, DoorState.closing);
-      return;
+      return true;
     }
 
     gameEntity =
@@ -70,6 +131,8 @@ class InteractionSystem implements GameSystem {
       _worldMap.setDoorState(
           camera.xPos.floor(), camera.yPos.floor(), DoorState.opening);
     }
+
+    return false;
   }
 
   @override
@@ -80,6 +143,6 @@ class InteractionSystem implements GameSystem {
   @override
   bool shouldRun(GameEntity gameEntity) {
     return gameEntity.hasComponent("camera") &&
-        gameEntity.hasComponent("interaction");
+        gameEntity.hasComponent("interacting");
   }
 }

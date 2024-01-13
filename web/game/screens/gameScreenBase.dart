@@ -14,7 +14,7 @@ import '../../engine/ecs/gameRenderSystem.dart';
 import '../../engine/ecs/gameSystem.dart';
 import '../../engine/ecs/system/entity/cameraSystem.dart';
 import '../../engine/ecs/system/entity/interactionSystem.dart';
-import '../../engine/ecs/system/entity/pickUpDropSystem.dart';
+import '../../engine/ecs/system/entity/pickUpSystem.dart';
 import '../../engine/input/keyboard.dart';
 import '../../engine/logger/logger.dart';
 import '../../engine/primitives/color.dart';
@@ -59,7 +59,7 @@ class GameScreenBase {
     registerSystems([
       CameraSystem(),
       InteractionSystem(),
-      PickUpDropSystem(),
+      PickUpSystem(),
       RepairSystem(),
       DrillSystem()
     ]);
