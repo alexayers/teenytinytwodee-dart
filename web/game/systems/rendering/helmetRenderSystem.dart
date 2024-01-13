@@ -3,9 +3,11 @@ import '../../../engine/ecs/gameEntity.dart';
 import '../../../engine/ecs/gameEntityRegistry.dart';
 import '../../../engine/ecs/gameRenderSystem.dart';
 import '../../../engine/primitives/color.dart';
+import '../../../engine/rendering/font.dart';
 import '../../../engine/rendering/rayCaster/worldMap.dart';
 import '../../../engine/rendering/renderer.dart';
 import '../../../engine/rendering/sprite.dart';
+import '../../../fonts.dart';
 import '../../components/canHaveMessageComponent.dart';
 
 class HelmetRenderSystem implements GameRenderSystem {
@@ -16,7 +18,7 @@ class HelmetRenderSystem implements GameRenderSystem {
 
   @override
   void process() {
-    GameEntity player = this._gameEntityRegistry.getSingleton("player");
+    GameEntity player = _gameEntityRegistry.getSingleton("player");
 
     if (player.hasComponent("dead")) {
       return;
@@ -31,7 +33,8 @@ class HelmetRenderSystem implements GameRenderSystem {
   }
 
   void renderHelmetEffect() {
-    Color lineColor = Color(255, 20, 255, 0.0323);
+    Color lineColor = Color(255, 20, 255, 0.03);
+    Color scanLine = Color(255, 20, 255, 0.02);
 
     for (int y = 0; y < Renderer.getCanvasHeight(); y += 64) {
       Renderer.line(0, y, Renderer.getCanvasWidth(), y, 1, lineColor);
@@ -41,8 +44,8 @@ class HelmetRenderSystem implements GameRenderSystem {
       Renderer.line(x, 0, x, Renderer.getCanvasHeight(), 1, lineColor);
     }
 
-    Renderer.rect(0, _visorLine, Renderer.getCanvasWidth(), 64, lineColor);
-    _visorLine += 5;
+    Renderer.rect(0, _visorLine, Renderer.getCanvasWidth(), 64, scanLine);
+    _visorLine += 10;
 
     if (_visorLine > Renderer.getCanvasHeight()) {
       _visorLine = -100;
@@ -59,14 +62,14 @@ class HelmetRenderSystem implements GameRenderSystem {
       Renderer.rect((Renderer.getCanvasWidth() / 2) - 10,
           (Renderer.getCanvasHeight() / 2) - 20, 105, 40, Colors.black);
 
-      /*
-      Renderer.print("Damaged", (Renderer.getCanvasWidth() / 2) as int, (Renderer.getCanvasHeight() / 2) as int, {
-        family: Fonts.Oxanium,
-        size: 20,
-        color: Colors.white
-      });
 
-       */
+      Renderer.print("Damaged", (Renderer.getCanvasWidth() / 2) as int, (Renderer.getCanvasHeight() / 2) as int, Font(
+        Fonts.oxanium.name,
+        20,
+        Colors.white
+      ));
+
+
     }
   }
 

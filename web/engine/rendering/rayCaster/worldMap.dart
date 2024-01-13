@@ -26,7 +26,7 @@ class WorldMap {
   late int _worldHeight;
   List<num> _doorOffsets = [];
   List<DoorState> _doorStates = [];
-  late WorldDefinition _worldDefinition;
+  late WorldDefinition worldDefinition;
   bool _worldLoaded = false;
 
   WorldMap._privateConstructor();
@@ -37,7 +37,7 @@ class WorldMap {
   }
 
   void loadMap(WorldDefinition worldDefinition) {
-    _worldDefinition = worldDefinition;
+    this.worldDefinition = worldDefinition;
     _worldWidth = worldDefinition.width;
     _worldHeight = worldDefinition.height;
 

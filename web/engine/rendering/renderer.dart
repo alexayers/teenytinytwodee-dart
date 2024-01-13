@@ -149,6 +149,7 @@ class Renderer {
     _ctx.lineTo(x2, y2);
     _ctx.lineWidth = width;
     _ctx.strokeStyle = ColorUtils.rbgToHex(color.red, color.green, color.blue);
+    setAlpha(color.alpha);
     _ctx.stroke();
   }
 

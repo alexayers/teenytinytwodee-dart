@@ -1,8 +1,10 @@
 import 'dart:math' as math;
 
+import '../../ecs/components/animatedSpriteComponent.dart';
 import '../../ecs/components/spriteComponent.dart';
 import '../../ecs/gameEntity.dart';
 import '../../ecs/gameEntityRegistry.dart';
+import '../../logger/logger.dart';
 import '../../primitives/color.dart';
 import '../renderer.dart';
 import '../sprite.dart';
@@ -11,9 +13,10 @@ import 'transparentWall.dart';
 import 'worldMap.dart';
 
 class RayCaster {
-  List<num> _cameraXCoords = [];
-  List<num> _zBuffer = [];
-  List<TransparentWall> _transparentWalls = [];
+  final List<num> _cameraXCoords = [];
+  final List<num> _zBuffer = [];
+  final List<TransparentWall> _transparentWalls = [];
+  final WorldMap worldMap = WorldMap.instance;
 
   RayCaster() {
     for (int x = 0; x < Renderer.getCanvasWidth(); x++) {
@@ -204,19 +207,29 @@ class RayCaster {
       gameEntity = GameEntityRegistry.instance.getSingleton("doorFrame");
     }
 
-    SpriteComponent sprite =
-        gameEntity.getComponent("sprite") as SpriteComponent;
-    Sprite wallTex = sprite.sprite;
+    SpriteComponent sprite;
+    Sprite wallTexture;
 
-    int texX = (wallX * wallTex.image.width!).floor();
-    if (side == 0 && rayDirX > 0) {
-      texX = wallTex.image.width! - texX - 1;
-    } else if (side == 1 && rayDirY < 0) {
-      texX = wallTex.image.width! - texX - 1;
+    if (gameEntity.hasComponent("sprite")) {
+      sprite = gameEntity.getComponent("sprite") as SpriteComponent;
+      wallTexture = sprite.sprite;
+    } else if (gameEntity.hasComponent("animatedSprite")) {
+      AnimatedSpriteComponent animatedSprite  = gameEntity.getComponent("animatedSprite") as AnimatedSpriteComponent;
+      wallTexture = animatedSprite.currentSprite();
+    } else {
+      // throw new Error("No gameEntity found");
+      return;
     }
 
-    Renderer.renderClippedImage(wallTex.image, texX, 0, 1,
-        wallTex.image.height!, x, drawStart, 1, lineHeight);
+    int texX = (wallX * wallTexture.image.width!).floor();
+    if (side == 0 && rayDirX > 0) {
+      texX = wallTexture.image.width! - texX - 1;
+    } else if (side == 1 && rayDirY < 0) {
+      texX = wallTexture.image.width! - texX - 1;
+    }
+
+    Renderer.renderClippedImage(wallTexture.image, texX, 0, 1,
+        wallTexture.image.height!, x, drawStart, 1, lineHeight);
     renderShadows(perpWallDist, x, drawStart, lineHeight);
 
     _zBuffer.add(perpWallDist);
@@ -258,12 +271,18 @@ class RayCaster {
 
   void drawSkyBox(Color groundColor, Color skyColor) {
     // Sky
-    Renderer.rect(0, 0, Renderer.getCanvasWidth(),
-        Renderer.getCanvasHeight() / 2, skyColor);
+    final skyBox = worldMap.worldDefinition.skyBox;
+
+    if (skyBox != null) {
+      Renderer.renderImage(skyBox.image, 0, 0, Renderer.getCanvasWidth(), Renderer.getCanvasHeight());
+    } else {
+      // Sky
+      Renderer.rect(0, 0, Renderer.getCanvasWidth(), Renderer.getCanvasHeight() / 2, worldMap.worldDefinition.skyColor);
+
+    }
 
     // Ground
-    Renderer.rect(0, Renderer.getCanvasHeight() / 2, Renderer.getCanvasWidth(),
-        Renderer.getCanvasHeight(), groundColor);
+    Renderer.rect(0, Renderer.getCanvasHeight() / 2, Renderer.getCanvasWidth(), Renderer.getCanvasHeight(), worldMap.worldDefinition.floorColor);
   }
 
   void combSort(List<int> order, List<double> dist) {

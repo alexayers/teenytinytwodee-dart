@@ -256,11 +256,11 @@ class GameScreenBase {
   void wideScreen() {
     Renderer.rect(0, 0, Renderer.getCanvasWidth(), 40, Colors.black);
 
-    Renderer.rect(0, Renderer.getCanvasHeight() - 60, Renderer.getCanvasWidth(),
+    Renderer.rect(0, Renderer.getCanvasHeight() - 40, Renderer.getCanvasWidth(),
         40, Colors.black);
 
     int offsetX = 550;
-    int offsetY = 70;
+    int offsetY = 50;
 
     InventoryComponent inventory =
         player.getComponent("inventory") as InventoryComponent;
@@ -276,7 +276,7 @@ class GameScreenBase {
       }
 
       Renderer.rect(offsetX, Renderer.getCanvasHeight() - offsetY,
-          inventoryBoxSize, inventoryBoxSize, new Color(190, 190, 190, 0.45));
+          inventoryBoxSize, inventoryBoxSize, Color(190, 190, 190, 0.45));
 
       if (inventory.inventory[i] != null) {
         InventorySpriteComponent inventorySprite = inventory.inventory[i]!

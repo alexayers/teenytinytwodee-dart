@@ -271,11 +271,6 @@ class PlanetSurfaceScreen extends GameScreenBase implements GameScreen {
   }
 
   @override
-  void logicLoop() {
-    // TODO: implement logicLoop
-  }
-
-  @override
   void mouseClick(double x, double y, MouseButton mouseButton) {
     // TODO: implement mouseClick
   }

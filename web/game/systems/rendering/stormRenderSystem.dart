@@ -8,7 +8,7 @@ class StormRenderSystem implements GameRenderSystem {
   final List<Particle> _particles = [];
 
   StormRenderSystem() {
-    for (int i = 0; i < 200; i++) {
+    for (int i = 0; i < 100; i++) {
       _particles.add(refreshParticle(Particle()));
     }
   }
